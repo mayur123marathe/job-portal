@@ -577,5 +577,6 @@ services:
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery:8761/eureka/
       EUREKA_URL: http://discovery:8761/eureka
       SERVER_PORT: 9010
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
     networks:
       - job-portal-net
