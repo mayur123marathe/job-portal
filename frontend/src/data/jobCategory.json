@@ -1,0 +1,308 @@
+[
+  {
+    "name": "Technology",
+    "description": "All technology and IT-related job categories",
+    "iconUrl": "https://example.com/icons/technology.png",
+    "parentId": null
+  },
+  {
+    "name": "Healthcare",
+    "description": "Medical and healthcare positions",
+    "iconUrl": "https://example.com/icons/healthcare.png",
+    "parentId": null
+  },
+  {
+    "name": "Finance",
+    "description": "Banking, investment, and financial services",
+    "iconUrl": "https://example.com/icons/finance.png",
+    "parentId": null
+  },
+  {
+    "name": "Education",
+    "description": "Teaching and academic roles",
+    "iconUrl": "https://example.com/icons/education.png",
+    "parentId": null
+  },
+  {
+    "name": "Marketing",
+    "description": "Marketing and advertising positions",
+    "iconUrl": "https://example.com/icons/marketing.png",
+    "parentId": null
+  },
+  {
+    "name": "Sales",
+    "description": "Sales and business development roles",
+    "iconUrl": "https://example.com/icons/sales.png",
+    "parentId": null
+  },
+  {
+    "name": "Human Resources",
+    "description": "HR and talent acquisition positions",
+    "iconUrl": "https://example.com/icons/hr.png",
+    "parentId": null
+  },
+  {
+    "name": "Legal",
+    "description": "Legal and compliance roles",
+    "iconUrl": "https://example.com/icons/legal.png",
+    "parentId": null
+  },
+  {
+    "name": "Operations",
+    "description": "Business operations and management",
+    "iconUrl": "https://example.com/icons/operations.png",
+    "parentId": null
+  },
+  {
+    "name": "Construction",
+    "description": "Construction and trades positions",
+    "iconUrl": "https://example.com/icons/construction.png",
+    "parentId": null
+  },
+  {
+    "name": "Manufacturing",
+    "description": "Manufacturing and production roles",
+    "iconUrl": "https://example.com/icons/manufacturing.png",
+    "parentId": null
+  },
+  {
+    "name": "Retail",
+    "description": "Retail and customer service positions",
+    "iconUrl": "https://example.com/icons/retail.png",
+    "parentId": null
+  },
+  {
+    "name": "Hospitality",
+    "description": "Hotels, restaurants, and tourism",
+    "iconUrl": "https://example.com/icons/hospitality.png",
+    "parentId": null
+  },
+  {
+    "name": "Transportation",
+    "description": "Logistics and transportation roles",
+    "iconUrl": "https://example.com/icons/transport.png",
+    "parentId": null
+  },
+  {
+    "name": "Real Estate",
+    "description": "Property management and real estate",
+    "iconUrl": "https://example.com/icons/realestate.png",
+    "parentId": null
+  },
+  {
+    "name": "Creative Arts",
+    "description": "Arts, design, and creative positions",
+    "iconUrl": "https://example.com/icons/creative.png",
+    "parentId": null
+  },
+  {
+    "name": "Media & Communications",
+    "description": "Journalism, PR, and communications",
+    "iconUrl": "https://example.com/icons/media.png",
+    "parentId": null
+  },
+  {
+    "name": "Engineering",
+    "description": "Various engineering disciplines",
+    "iconUrl": "https://example.com/icons/engineering.png",
+    "parentId": null
+  },
+  {
+    "name": "Science",
+    "description": "Scientific research and laboratory roles",
+    "iconUrl": "https://example.com/icons/science.png",
+    "parentId": null
+  },
+  {
+    "name": "Agriculture",
+    "description": "Farming and agricultural positions",
+    "iconUrl": "https://example.com/icons/agriculture.png",
+    "parentId": null
+  },
+  {
+    "name": "Energy",
+    "description": "Oil, gas, and renewable energy",
+    "iconUrl": "https://example.com/icons/energy.png",
+    "parentId": null
+  },
+  {
+    "name": "Telecommunications",
+    "description": "Telecom and network infrastructure",
+    "iconUrl": "https://example.com/icons/telecom.png",
+    "parentId": null
+  },
+  {
+    "name": "Insurance",
+    "description": "Insurance underwriting and claims",
+    "iconUrl": "https://example.com/icons/insurance.png",
+    "parentId": null
+  },
+  {
+    "name": "Government",
+    "description": "Public sector and government jobs",
+    "iconUrl": "https://example.com/icons/government.png",
+    "parentId": null
+  },
+  {
+    "name": "Nonprofit",
+    "description": "Nonprofit and charity organizations",
+    "iconUrl": "https://example.com/icons/nonprofit.png",
+    "parentId": null
+  },
+  {
+    "name": "Software Development",
+    "description": "Software engineering and programming roles",
+    "iconUrl": "https://example.com/icons/software.png",
+    "parentId": 1
+  },
+  {
+    "name": "IT Support",
+    "description": "Technical support and help desk positions",
+    "iconUrl": "https://example.com/icons/itsupport.png",
+    "parentId": 1
+  },
+  {
+    "name": "Nursing",
+    "description": "Registered nurses and nurse practitioners",
+    "iconUrl": "https://example.com/icons/nursing.png",
+    "parentId": 2
+  },
+  {
+    "name": "Medical Specialists",
+    "description": "Doctors and medical specialists",
+    "iconUrl": "https://example.com/icons/doctors.png",
+    "parentId": 2
+  },
+  {
+    "name": "Investment Banking",
+    "description": "Investment banking and trading roles",
+    "iconUrl": "https://example.com/icons/investment.png",
+    "parentId": 3
+  },
+  {
+    "name": "Financial Analysis",
+    "description": "Financial analyst and planning positions",
+    "iconUrl": "https://example.com/icons/financialanalyst.png",
+    "parentId": 3
+  },
+  {
+    "name": "K-12 Teaching",
+    "description": "Elementary and secondary education",
+    "iconUrl": "https://example.com/icons/k12.png",
+    "parentId": 4
+  },
+  {
+    "name": "Higher Education",
+    "description": "University and college positions",
+    "iconUrl": "https://example.com/icons/highered.png",
+    "parentId": 4
+  },
+  {
+    "name": "Digital Marketing",
+    "description": "SEO, SEM, and social media marketing",
+    "iconUrl": "https://example.com/icons/digital.png",
+    "parentId": 5
+  },
+  {
+    "name": "Content Marketing",
+    "description": "Content strategy and creation",
+    "iconUrl": "https://example.com/icons/content.png",
+    "parentId": 5
+  },
+  {
+    "name": "Account Executive",
+    "description": "Enterprise and mid-market sales",
+    "iconUrl": "https://example.com/icons/ae.png",
+    "parentId": 6
+  },
+  {
+    "name": "Sales Development",
+    "description": "SDR and BDR positions",
+    "iconUrl": "https://example.com/icons/sdr.png",
+    "parentId": 6
+  },
+  {
+    "name": "Recruiting",
+    "description": "Talent acquisition and sourcing",
+    "iconUrl": "https://example.com/icons/recruiting.png",
+    "parentId": 7
+  },
+  {
+    "name": "HR Generalist",
+    "description": "General HR and people operations",
+    "iconUrl": "https://example.com/icons/hrgeneralist.png",
+    "parentId": 7
+  },
+  {
+    "name": "Corporate Law",
+    "description": "Corporate legal counsel",
+    "iconUrl": "https://example.com/icons/corplaw.png",
+    "parentId": 8
+  },
+  {
+    "name": "Contract Management",
+    "description": "Contract review and management",
+    "iconUrl": "https://example.com/icons/contract.png",
+    "parentId": 8
+  },
+  {
+    "name": "Project Management",
+    "description": "Project and program management",
+    "iconUrl": "https://example.com/icons/project.png",
+    "parentId": 9
+  },
+  {
+    "name": "Business Operations",
+    "description": "Business strategy and operations",
+    "iconUrl": "https://example.com/icons/bizops.png",
+    "parentId": 9
+  },
+  {
+    "name": "Carpentry",
+    "description": "Carpentry and woodworking",
+    "iconUrl": "https://example.com/icons/carpentry.png",
+    "parentId": 10
+  },
+  {
+    "name": "Electrical",
+    "description": "Electrical installation and repair",
+    "iconUrl": "https://example.com/icons/electrical.png",
+    "parentId": 10
+  },
+  {
+    "name": "Assembly Line",
+    "description": "Production line assembly",
+    "iconUrl": "https://example.com/icons/assembly.png",
+    "parentId": 11
+  },
+  {
+    "name": "Quality Control",
+    "description": "Quality assurance and inspection",
+    "iconUrl": "https://example.com/icons/quality.png",
+    "parentId": 11
+  },
+  {
+    "name": "Store Management",
+    "description": "Retail store management",
+    "iconUrl": "https://example.com/icons/store.png",
+    "parentId": 12
+  },
+  {
+    "name": "Sales Associate",
+    "description": "Retail sales positions",
+    "iconUrl": "https://example.com/icons/associate.png",
+    "parentId": 12
+  },
+  {
+    "name": "Chef",
+    "description": "Executive and sous chef positions",
+    "iconUrl": "https://example.com/icons/chef.png",
+    "parentId": 13
+  },
+  {
+    "name": "Hotel Management",
+    "description": "Hotel and lodging management",
+    "iconUrl": "https://example.com/icons/hotel.png",
+    "parentId": 13
+  }
+]

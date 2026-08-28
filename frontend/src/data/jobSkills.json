@@ -1,0 +1,354 @@
+[
+  {
+    "name": "Java",
+    "category": "PROGRAMMING_LANGUAGE"
+  },
+  {
+    "name": "Python",
+    "category": "PROGRAMMING_LANGUAGE"
+  },
+  {
+    "name": "JavaScript",
+    "category": "PROGRAMMING_LANGUAGE"
+  },
+  {
+    "name": "TypeScript",
+    "category": "PROGRAMMING_LANGUAGE"
+  },
+  {
+    "name": "C#",
+    "category": "PROGRAMMING_LANGUAGE"
+  },
+  {
+    "name": "C++",
+    "category": "PROGRAMMING_LANGUAGE"
+  },
+  {
+    "name": "Go",
+    "category": "PROGRAMMING_LANGUAGE"
+  },
+  {
+    "name": "Rust",
+    "category": "PROGRAMMING_LANGUAGE"
+  },
+  {
+    "name": "Swift",
+    "category": "PROGRAMMING_LANGUAGE"
+  },
+  {
+    "name": "Kotlin",
+    "category": "PROGRAMMING_LANGUAGE"
+  },
+  {
+    "name": "Spring Boot",
+    "category": "FRAMEWORK"
+  },
+  {
+    "name": "React",
+    "category": "FRAMEWORK"
+  },
+  {
+    "name": "Angular",
+    "category": "FRAMEWORK"
+  },
+  {
+    "name": "Vue.js",
+    "category": "FRAMEWORK"
+  },
+  {
+    "name": "Django",
+    "category": "FRAMEWORK"
+  },
+  {
+    "name": "Flask",
+    "category": "FRAMEWORK"
+  },
+  {
+    "name": "Ruby on Rails",
+    "category": "FRAMEWORK"
+  },
+  {
+    "name": ".NET Core",
+    "category": "FRAMEWORK"
+  },
+  {
+    "name": "Laravel",
+    "category": "FRAMEWORK"
+  },
+  {
+    "name": "Express.js",
+    "category": "FRAMEWORK"
+  },
+  {
+    "name": "MySQL",
+    "category": "DATABASE"
+  },
+  {
+    "name": "PostgreSQL",
+    "category": "DATABASE"
+  },
+  {
+    "name": "MongoDB",
+    "category": "DATABASE"
+  },
+  {
+    "name": "Oracle",
+    "category": "DATABASE"
+  },
+  {
+    "name": "Redis",
+    "category": "DATABASE"
+  },
+  {
+    "name": "Cassandra",
+    "category": "DATABASE"
+  },
+  {
+    "name": "Elasticsearch",
+    "category": "DATABASE"
+  },
+  {
+    "name": "DynamoDB",
+    "category": "DATABASE"
+  },
+  {
+    "name": "SQL Server",
+    "category": "DATABASE"
+  },
+  {
+    "name": "SQLite",
+    "category": "DATABASE"
+  },
+  {
+    "name": "AWS",
+    "category": "CLOUD_PLATFORM"
+  },
+  {
+    "name": "Microsoft Azure",
+    "category": "CLOUD_PLATFORM"
+  },
+  {
+    "name": "Google Cloud Platform",
+    "category": "CLOUD_PLATFORM"
+  },
+  {
+    "name": "Heroku",
+    "category": "CLOUD_PLATFORM"
+  },
+  {
+    "name": "DigitalOcean",
+    "category": "CLOUD_PLATFORM"
+  },
+  {
+    "name": "IBM Cloud",
+    "category": "CLOUD_PLATFORM"
+  },
+  {
+    "name": "Oracle Cloud",
+    "category": "CLOUD_PLATFORM"
+  },
+  {
+    "name": "Alibaba Cloud",
+    "category": "CLOUD_PLATFORM"
+  },
+  {
+    "name": "Docker",
+    "category": "DEVOPS"
+  },
+  {
+    "name": "Kubernetes",
+    "category": "DEVOPS"
+  },
+  {
+    "name": "Jenkins",
+    "category": "DEVOPS"
+  },
+  {
+    "name": "GitHub Actions",
+    "category": "DEVOPS"
+  },
+  {
+    "name": "GitLab CI",
+    "category": "DEVOPS"
+  },
+  {
+    "name": "Terraform",
+    "category": "DEVOPS"
+  },
+  {
+    "name": "Ansible",
+    "category": "DEVOPS"
+  },
+  {
+    "name": "Prometheus",
+    "category": "DEVOPS"
+  },
+  {
+    "name": "Grafana",
+    "category": "DEVOPS"
+  },
+  {
+    "name": "Figma",
+    "category": "DESIGN"
+  },
+  {
+    "name": "Adobe Photoshop",
+    "category": "DESIGN"
+  },
+  {
+    "name": "Adobe Illustrator",
+    "category": "DESIGN"
+  },
+  {
+    "name": "Adobe XD",
+    "category": "DESIGN"
+  },
+  {
+    "name": "Sketch",
+    "category": "DESIGN"
+  },
+  {
+    "name": "InVision",
+    "category": "DESIGN"
+  },
+  {
+    "name": "Zeplin",
+    "category": "DESIGN"
+  },
+  {
+    "name": "Canva",
+    "category": "DESIGN"
+  },
+  {
+    "name": "Communication",
+    "category": "SOFT_SKILL"
+  },
+  {
+    "name": "Teamwork",
+    "category": "SOFT_SKILL"
+  },
+  {
+    "name": "Problem Solving",
+    "category": "SOFT_SKILL"
+  },
+  {
+    "name": "Critical Thinking",
+    "category": "SOFT_SKILL"
+  },
+  {
+    "name": "Time Management",
+    "category": "SOFT_SKILL"
+  },
+  {
+    "name": "Leadership",
+    "category": "SOFT_SKILL"
+  },
+  {
+    "name": "Adaptability",
+    "category": "SOFT_SKILL"
+  },
+  {
+    "name": "Conflict Resolution",
+    "category": "SOFT_SKILL"
+  },
+  {
+    "name": "Emotional Intelligence",
+    "category": "SOFT_SKILL"
+  },
+  {
+    "name": "Creativity",
+    "category": "SOFT_SKILL"
+  },
+  {
+    "name": "Jira",
+    "category": "TOOL"
+  },
+  {
+    "name": "Trello",
+    "category": "TOOL"
+  },
+  {
+    "name": "Asana",
+    "category": "TOOL"
+  },
+  {
+    "name": "Microsoft Office",
+    "category": "TOOL"
+  },
+  {
+    "name": "Slack",
+    "category": "TOOL"
+  },
+  {
+    "name": "Zoom",
+    "category": "TOOL"
+  },
+  {
+    "name": "Postman",
+    "category": "TOOL"
+  },
+  {
+    "name": "Git",
+    "category": "TOOL"
+  },
+  {
+    "name": "VS Code",
+    "category": "TOOL"
+  },
+  {
+    "name": "IntelliJ IDEA",
+    "category": "TOOL"
+  },
+  {
+    "name": "English",
+    "category": "LANGUAGE"
+  },
+  
+  
+ 
+  {
+    "name": "Hindi",
+    "category": "LANGUAGE"
+  },
+  
+  {
+    "name": "Agile Methodology",
+    "category": "OTHER"
+  },
+  {
+    "name": "Scrum",
+    "category": "OTHER"
+  },
+  {
+    "name": "Kanban",
+    "category": "OTHER"
+  },
+  {
+    "name": "Waterfall",
+    "category": "OTHER"
+  },
+  {
+    "name": "Domain Driven Design",
+    "category": "OTHER"
+  },
+  {
+    "name": "Microservices Architecture",
+    "category": "OTHER"
+  },
+  {
+    "name": "RESTful APIs",
+    "category": "OTHER"
+  },
+  {
+    "name": "GraphQL",
+    "category": "OTHER"
+  },
+  {
+    "name": "Event-Driven Architecture",
+    "category": "OTHER"
+  },
+  {
+    "name": "Technical Writing",
+    "category": "OTHER"
+  }
+]

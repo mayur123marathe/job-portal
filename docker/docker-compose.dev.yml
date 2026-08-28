@@ -1,0 +1,59 @@
+services:
+
+  kafka:
+    image: apache/kafka:4.1.1
+    container_name: job-portal-kafka-dev
+    ports:
+      - "9092:9092"       # app connections (localhost)
+      - "9093:9093"       # KRaft controller port (internal)
+    environment:
+      # ── KRaft (no ZooKeeper) ────────────────────────────────────────────────
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+
+      # ── Listeners ───────────────────────────────────────────────────────────
+      # PLAINTEXT_HOST  → used by apps on your machine (localhost:9092)
+      # PLAINTEXT       → used for internal broker-to-broker traffic
+      # CONTROLLER      → used for KRaft leader election
+      KAFKA_LISTENERS: PLAINTEXT_HOST://0.0.0.0:9092,PLAINTEXT://0.0.0.0:9094,CONTROLLER://0.0.0.0:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT_HOST://localhost:9092,PLAINTEXT://kafka:9094
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT_HOST:PLAINTEXT,PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+
+      # ── Broker settings (dev-friendly) ──────────────────────────────────────
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_LOG_RETENTION_HOURS: 24
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+
+    volumes:
+      - kafka-data:/var/lib/kafka/data
+    healthcheck:
+      test: ["CMD", "kafka-topics.sh", "--bootstrap-server", "localhost:9092", "--list"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
+
+#  redis:
+#    image: redis:7-alpine
+#    container_name: job-portal-redis-dev
+#    ports:
+#      - "6379:6379"
+#    volumes:
+#      - redis-data:/data
+#    healthcheck:
+#      test: ["CMD", "redis-cli", "ping"]
+#      interval: 10s
+#      timeout: 5s
+#      retries: 5
+#      start_period: 10s
+#    restart: unless-stopped
+
+volumes:
+  kafka-data:
+  redis-data:

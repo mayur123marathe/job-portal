@@ -1,0 +1,30 @@
+server:
+  port: 5005
+
+spring:
+  application:
+    name: job-portal-application-service
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/yt_job_portal_application
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true

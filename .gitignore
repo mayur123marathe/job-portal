@@ -1,0 +1,41 @@
+# Root gitignore for full-stack React (Vite) + Spring Boot (Maven) project
+
+# Maven / Java Build outputs
+**/target/
+**/*.class
+**/*.jar
+**/*.war
+**/*.ear
+**/*.tar.gz
+.mvn/wrapper/maven-wrapper.jar
+
+# Node / Frontend Build outputs
+**/node_modules/
+**/dist/
+**/dist-ssr/
+**/*.local
+**/package-lock.json.log
+**/pnpm-lock.yaml.log
+**/yarn-error.log
+
+# IDE & Editor Settings
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.DS_Store
+*.log
+
+# Environments & Secret Files
+**/*.env
+**/*.env.local
+**/*.env.development.local
+**/*.env.test.local
+**/*.env.production.local
+
+# Docker local data
+**/docker/*_data/
+**/docker/.env
