@@ -182,3 +182,53 @@ docker exec -t job-portal-jobdb pg_dump -U postgres job_portal_job > /root/jobdb
 # Restore jobdb
 cat /root/jobdb_backup.sql | docker exec -i job-portal-jobdb psql -U postgres -d job_portal_job
 ```
+
+---
+
+## 7. Automated CI/CD Pipeline (GitHub Actions)
+
+The system features an automated, enterprise-grade **Continuous Integration & Continuous Deployment (CI/CD)** pipeline defined in [`.github/workflows/deploy.yml`](file:///d:/work/Projects/Job%20Portal/.github/workflows/deploy.yml).
+
+### 7.1 Pipeline Workflow Architecture
+
+```
+[ Developer pushes to `main` ]
+              │
+              ▼
+[ GitHub Actions Runner (Ubuntu Latest) ]
+  ├─ Step 1: Set up JDK 21 (Temurin) with Maven Dependency Cache
+  ├─ Step 2: Build & install `common-lib`
+  └─ Step 3: Multi-module Maven Jib Build & Push (`mayurmarathe/job-portal-*:latest`)
+              │ (Artifacts pushed to Docker Hub)
+              ▼
+[ Continuous Deployment (CD via SSH) ]
+  ├─ Authenticates to VPS (`213.210.37.56:22`) using `appleboy/ssh-action`
+  ├─ Pulls updated Docker images (`docker compose pull`)
+  └─ Performs rolling zero-downtime container updates (`docker compose up -d`)
+```
+
+### 7.2 GitHub Repository Secrets Configuration
+
+| Secret Name | Purpose |
+| :--- | :--- |
+| `DOCKERHUB_USERNAME` | Docker Hub username (`mayurmarathe`) for container registry authentication. |
+| `DOCKERHUB_TOKEN` | Docker Hub Personal Access Token with Read & Write permissions. |
+| `VPS_HOST` | Hostinger VPS Public IPv4 address (`213.210.37.56`). |
+| `VPS_PASSWORD` | Secure root SSH password for remote deployment execution. |
+
+---
+
+## 8. Real-World Engineering Solutions & Fixes Implemented
+
+1. **SPA Client-Side 404 Routing Resolution**:
+   * *Problem*: Hard page reloads on Vercel CDN returned `404: NOT_FOUND` on deep routes (e.g. `/employer/jobs/create`).
+   * *Solution*: Implemented [frontend/vercel.json](file:///d:/work/Projects/Job%20Portal/frontend/vercel.json) rewrite rule: `{"source": "/(.*)", "destination": "/index.html"}` to ensure all subpaths are routed to `index.html` for client-side React Router execution.
+
+2. **Bean Validation Empty String vs Null Payload Sanitization**:
+   * *Problem*: Java `@Pattern(regexp = "^(https?://).*")` in `UpdatePersonalInfoRequest` failed with `400 Bad Request` when optional URL fields were left blank in the UI because HTML inputs send `""` (empty string).
+   * *Solution*: Implemented automated payload sanitization in [frontend/src/store/resume/resumeThunk.js](file:///d:/work/Projects/Job%20Portal/frontend/src/store/resume/resumeThunk.js) converting empty strings `""` to `null` before API transmission.
+
+3. **Master Metadata Database Seeding**:
+   * *Problem*: Brand-new PostgreSQL container (`job-portal-jobdb`) initialized with empty tables, causing empty category/skill dropdowns in the Job creation form.
+   * *Solution*: Seeded default categories (8), technical skills (18), and tags (8) into `job_portal_job` via direct SQL execution.
+

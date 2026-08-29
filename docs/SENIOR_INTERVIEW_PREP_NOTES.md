@@ -211,7 +211,43 @@ When asked: *"Walk me through the most technically challenging project you have 
 
 ---
 
-## 8. Summary Checklist for Interview Day
+## 8. Continuous Integration & Continuous Deployment (CI/CD)
+
+### Q22: Walk me through the automated CI/CD pipeline you designed.
+* **Trigger**: Automated trigger on Git pushes to `main` matching `job-portal-system/**`, plus manual `workflow_dispatch` trigger.
+* **Build Phase (CI)**:
+  * Uses GitHub Actions cloud runner with Java 21 (Temurin) and Maven caching.
+  * Builds shared `common-lib` and installs it to local `.m2` repository.
+  * Executes multi-module Maven build with **Google Jib** (`mvn compile jib:build`), pushing container images directly to Docker Hub using encrypted repository secrets.
+* **Deploy Phase (CD)**:
+  * Uses `appleboy/ssh-action` to securely authenticate over SSH to the Linux VPS (`213.210.37.56:22`).
+  * Runs remote deployment commands: `docker compose pull && docker compose up -d`.
+  * Performs rolling zero-downtime container replacement while preserving PostgreSQL volumes.
+
+---
+
+## 9. Real-World Architecture War Stories & Debugging Scenarios
+
+When interviewers ask: *"Tell me about a difficult or non-obvious bug you diagnosed in production."*
+
+### Scenario 1: The SPA 404 Hard Reload Mystery on Edge CDNs
+* **Symptom**: Navigating to `/employer/jobs/create` via internal links worked perfectly, but pressing F5 (hard reload) returned `404: NOT_FOUND` from Vercel.
+* **Root Cause**: React Router is a client-side Single Page Application. Direct browser GET requests for `/employer/jobs/create` look for a physical file `/employer/jobs/create.html` on the static CDN server, which does not exist.
+* **Solution**: Implemented edge rewrite rules in `vercel.json` (`{"source": "/(.*)", "destination": "/index.html"}`) to route all URI requests back to `index.html`, allowing React Router to parse the path in-browser.
+
+### Scenario 2: The Java Bean Validation Empty String vs Null Contract Mismatch
+* **Symptom**: Updating candidate personal info without filling out optional URLs (LinkedIn, Portfolio) threw `400 Bad Request: Validation failed for object 'updatePersonalInfoRequest'`.
+* **Root Cause**: The DTO declared `@Pattern(regexp = "^(https?://).*")`. In Bean Validation, `null` passes validation (since `@NotNull` was omitted), but HTML inputs transmit empty strings `""`. Because `""` does not match the URL regex, validation failed.
+* **Solution**: Implemented client-side API payload sanitization in Redux thunks to convert empty strings `""` to `null` before network transmission, satisfying the backend validator without needing container recompilation.
+
+### Scenario 3: Cross-Service Ownership Verification with OpenFeign
+* **Symptom**: Newly registered employers attempting to post jobs received `500 Internal Server Error: No company found for this account`.
+* **Root Cause**: In our Database-per-Service model, `job-service` delegates company resolution to `company-service` via `@FeignClient`. If an employer had not yet completed their company profile onboarding, `company-service` returned a 404/500, cascading into job creation failure.
+* **Solution**: Handled the business exception gracefully, guiding the employer through the company onboarding flow before job submission.
+
+---
+
+## 10. Summary Checklist for Interview Day
 
 - [x] **Project Architecture**: Can explain the role of Gateway, Eureka, Config Server, and 7 business services.
 - [x] **Database Isolation**: Can defend why 6 separate PostgreSQL databases were used.
@@ -219,3 +255,6 @@ When asked: *"Walk me through the most technically challenging project you have 
 - [x] **Security**: Can explain JWT validation at API Gateway and role-based access control.
 - [x] **Reverse Proxy & SSL**: Can explain Nginx reverse proxying and Let's Encrypt Certbot integration.
 - [x] **Frontend SPA Routing**: Can explain why `vercel.json` rewrites are required for client-side React Router.
+- [x] **Automated CI/CD**: Can explain the GitHub Actions + Google Jib + SSH rolling deployment flow.
+- [x] **Production Debugging**: Can articulate the SPA 404 fix, Bean Validation regex fix, and cross-service Feign resolution.
+
