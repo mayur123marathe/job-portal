@@ -127,6 +127,11 @@ Running 10 Java JVMs + 6 PostgreSQL databases on a 4GB VPS without crashes requi
 * **Payload Limits & Timeouts**: `client_max_body_size 50M` with 120-second proxy timeouts to support large resume uploads and generative AI latency.
 * **CORS Policy**: Configured in API Gateway (`CorsConfig.java`) with `setAllowedOriginPatterns(List.of("*"))` and `setAllowCredentials(true)`.
 
+### 4.4 Secrets Management & API Key Security
+* **Strict Twelve-Factor Isolation**: Sensitive production credentials (`GEMINI_API_KEY`, `POSTGRES_PASSWORD`, `JWT_SECRET`) are stored strictly in `/opt/job-portal/.env` on the host server and injected into containers via Docker Compose at runtime.
+* **Zero Source Code Leakage**: All `.env` files are blocked from Git tracking via root `.gitignore`.
+* **Backend-Bound AI Proxying**: Third-party AI API keys (Google Gemini) are consumed exclusively by the internal `job-portal-ai-service` container (`gemini.api.key: ${GEMINI_API_KEY}`). The browser frontend never has access to the Gemini secret key, eliminating client-side credential scraping and quota abuse.
+
 ---
 
 ## 5. Frontend Architecture & Vercel Hosting

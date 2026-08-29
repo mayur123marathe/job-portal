@@ -190,6 +190,15 @@ When asked: *"Walk me through the most technically challenging project you have 
   * Attacker lures authenticated user to click a malicious link that submits requests to your backend using ambient browser cookies.
   * *Defense*: Stateless JWT Bearer tokens in the `Authorization` header are **immune to CSRF** because browsers never automatically attach custom HTTP headers to cross-origin requests.
 
+### Q19: How do you manage production secrets and prevent 3rd-party AI API key leakage?
+* **Twelve-Factor App (Config in Environment)**:
+  * Never hardcode secrets in source code or commit `.env` files to Git.
+  * On the host server, secrets (`GEMINI_API_KEY`, `POSTGRES_PASSWORD`, `JWT_SECRET`) reside in an uncommitted `/opt/job-portal/.env` and are injected into Docker containers as environment variables at runtime.
+* **Why AI Keys Must NEVER Be in the Frontend**:
+  * Any API key embedded in a client-side React app (`VITE_GEMINI_API_KEY`) is instantly visible to anyone via Browser DevTools Network tab or `strings bundle.js`.
+  * Malicious actors can scrape your key and drain your billing/quota.
+  * **The Architecture Solution**: Keep all LLM calls inside a dedicated backend microservice (`job-portal-ai-service`). The frontend calls your authenticated `/api/ai/*` endpoints behind the API Gateway with JWT protection, and the Java backend securely forwards prompts to Gemini with the hidden server-side key.
+
 ---
 
 ## 7. DevOps, Linux & Infrastructure Engineering
