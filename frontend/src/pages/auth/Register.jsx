@@ -1,4 +1,4 @@
-﻿import { useEffect } from "react";
+import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
@@ -6,7 +6,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema } from "../../validations/authSchemas";
 
 import AuthLayout from "../../components/auth/AuthLayout";
-import GoogleButton from "../../components/auth/GoogleButton";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import { PasswordInput } from "../../components/ui/password-input";
@@ -381,21 +380,6 @@ export default function Register() {
             </>
           )}
         </Button>
-
-        {/* Divider */}
-        <div className="relative my-6">
-          <div className="absolute inset-0 flex items-center">
-            <span className="w-full border-t border-slate-200" />
-          </div>
-          <div className="relative flex justify-center text-xs">
-            <span className="bg-white px-3 text-slate-500 font-medium">
-              Or continue with
-            </span>
-          </div>
-        </div>
-
-        {/* Google Sign Up */}
-        <GoogleButton>Sign up with Google</GoogleButton>
 
         {/* Additional Info */}
         <p className="text-xs text-center text-slate-500 pt-2">
