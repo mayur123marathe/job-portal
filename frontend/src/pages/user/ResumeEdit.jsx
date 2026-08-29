@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useParams, useNavigate, Link } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -248,7 +248,11 @@ function PersonalInfoSection({ resumeId, resume, isLoading, dispatch, otherResum
 
   const handleSave = () => {
     dispatch(updatePersonalInfo({ resumeId, data: form })).then((a) => {
-      if (a.meta.requestStatus === "fulfilled") toast.success("Personal info saved!")
+      if (a.meta.requestStatus === "fulfilled") {
+        toast.success("Personal info saved!")
+      } else {
+        toast.error(a.payload || "Failed to save personal info")
+      }
     })
   }
   return (

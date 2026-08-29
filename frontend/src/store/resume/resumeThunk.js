@@ -1,4 +1,4 @@
-﻿import { createAsyncThunk } from "@reduxjs/toolkit"
+import { createAsyncThunk } from "@reduxjs/toolkit"
 import api from "../api"
 
 // ── Resume CRUD ───────────────────────────────────────────────────────────────
@@ -54,12 +54,23 @@ export const updateResume = createAsyncThunk("resume/update",
   }
 )
 
+// ── Helper to convert empty string fields to null ──────────────────────────────
+function sanitizePayload(data) {
+  if (!data || typeof data !== "object") return data
+  return Object.fromEntries(
+    Object.entries(data).map(([k, v]) => [
+      k,
+      typeof v === "string" && v.trim() === "" ? null : v
+    ])
+  )
+}
+
 // ── Personal Info ─────────────────────────────────────────────────────────────
 // Returns full ResumeResponse (updates currentResume)
 
 export const updatePersonalInfo = createAsyncThunk("resume/updatePersonalInfo",
   async ({ resumeId, data }, { rejectWithValue }) => {
-    try { return (await api.put(`/api/resumes/${resumeId}/personal-info`, data)).data }
+    try { return (await api.put(`/api/resumes/${resumeId}/personal-info`, sanitizePayload(data))).data }
     catch (e) { return rejectWithValue(e.response?.data?.message || "Failed to update personal info") }
   }
 )
@@ -70,13 +81,13 @@ export const updatePersonalInfo = createAsyncThunk("resume/updatePersonalInfo",
 function makeSection(name, path, idParam) {
   const add = createAsyncThunk(`resume/add${name}`,
     async ({ resumeId, data }, { rejectWithValue }) => {
-      try { return (await api.post(`/api/resumes/${resumeId}/${path}`, data)).data }
+      try { return (await api.post(`/api/resumes/${resumeId}/${path}`, sanitizePayload(data))).data }
       catch (e) { return rejectWithValue(e.response?.data?.message || `Failed to add ${name}`) }
     }
   )
   const update = createAsyncThunk(`resume/update${name}`,
     async ({ resumeId, [idParam]: itemId, data }, { rejectWithValue }) => {
-      try { return (await api.put(`/api/resumes/${resumeId}/${path}/${itemId}`, data)).data }
+      try { return (await api.put(`/api/resumes/${resumeId}/${path}/${itemId}`, sanitizePayload(data))).data }
       catch (e) { return rejectWithValue(e.response?.data?.message || `Failed to update ${name}`) }
     }
   )
