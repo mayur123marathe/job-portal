@@ -8,12 +8,13 @@ on:
       - 'job-portal-system/**'
       - 'docker/**'
       - '.github/workflows/deploy.yml'
-  workflow_dispatch: # Allows manual trigger from GitHub Actions tab
+  workflow_dispatch:
 
 jobs:
   build-and-push:
     name: Build Jib Images & Push to Docker Hub
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -23,7 +24,7 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
-          cache: 'maven'
+          cache: maven
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
@@ -31,22 +32,18 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build & Install Modules in Order
+      - name: Build and Push All Images
         run: |
           cd job-portal-system
-          mvn clean install -DskipTests
-
-      - name: Build & Push Docker Images via Google Jib
-        run: |
-          cd job-portal-system
-          mvn compile jib:build -DskipTests
+          mvn clean install jib:build -DskipTests
 
   deploy-to-vps:
     name: Deploy to Production VPS
     needs: build-and-push
     runs-on: ubuntu-latest
+
     steps:
-      - name: SSH into Hostinger VPS & Reload Docker Containers
+      - name: Deploy to VPS
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.VPS_HOST }}
@@ -56,15 +53,21 @@ jobs:
           port: 22
           timeout: 120s
           command_timeout: 30m
+
           script: |
             cd /opt/job-portal
-            echo "🚀 Pulling latest images from Docker Hub..."
-            docker compose pull -q
-            echo "🔄 Starting containers..."
+
+            echo "Pulling latest images..."
+            docker compose pull
+
+            echo "Starting containers..."
             docker compose up -d
-            echo "⏳ Waiting 45s for services to finish booting and register with Eureka..."
+
+            echo "Waiting for services..."
             sleep 45
-            echo "🔄 Refreshing Gateway cache..."
+
+            echo "Restarting gateway..."
             docker compose restart gateway
-            echo "✅ Deployment complete! Checking container statuses:"
+
+            echo "Deployment status:"
             docker compose ps
