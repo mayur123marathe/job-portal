@@ -19,9 +19,9 @@
     <name>job-portal-system</name>
     <description>AI_powered Job Portal - Multi-Module Microservices System</description>
     <modules>
+        <module>common-lib</module>
         <module>cloud</module>
         <module>services</module>
-        <module>common-lib</module>
     </modules>
 
 

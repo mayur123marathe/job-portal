@@ -31,9 +31,9 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build & Install Common Library
+      - name: Build & Install Modules in Order
         run: |
-          cd job-portal-system/common-lib
+          cd job-portal-system
           mvn clean install -DskipTests
 
       - name: Build & Push Docker Images via Google Jib
