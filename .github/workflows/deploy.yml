@@ -14,6 +14,7 @@ jobs:
   build-and-push:
     name: Build Jib Images & Push to Docker Hub
     runs-on: ubuntu-latest
+    timeout-minutes: 60
 
     steps:
       - name: Checkout Code
@@ -41,6 +42,7 @@ jobs:
     name: Deploy to Production VPS
     needs: build-and-push
     runs-on: ubuntu-latest
+    timeout-minutes: 60
 
     steps:
       - name: Deploy to VPS
@@ -52,22 +54,38 @@ jobs:
           key: ${{ secrets.VPS_SSH_KEY }}
           port: 22
           timeout: 120s
-          command_timeout: 30m
+          command_timeout: 60m
 
           script: |
             cd /opt/job-portal
 
-            echo "Pulling latest images..."
+            echo "🚀 Pulling latest images..."
             docker compose pull
 
-            echo "Starting containers..."
+            echo "🔄 Starting containers..."
             docker compose up -d
 
-            echo "Waiting for services..."
-            sleep 45
+            echo "⏳ Polling Eureka service registry for readiness (up to 10 minutes)..."
+            READY=false
+            for i in {1..60}; do
+              COUNT=$(curl -s -H "Accept: application/json" http://localhost:8761/eureka/apps 2>/dev/null | grep -o '"status":"UP"' | wc -l || true)
+              echo "Attempt $i/60: $COUNT services UP in Eureka..."
+              if [ "$COUNT" -ge 8 ]; then
+                READY=true
+                echo "✅ Core microservices successfully registered with Eureka!"
+                break
+              fi
+              sleep 10
+            done
 
-            echo "Restarting gateway..."
+            if [ "$READY" = false ]; then
+              echo "❌ FATAL: Microservices failed to become ready in Eureka within 10 minutes!"
+              docker compose ps
+              exit 1
+            fi
+
+            echo "🔄 Refreshing Gateway cache..."
             docker compose restart gateway
 
-            echo "Deployment status:"
+            echo "✅ Deployment complete! Checking final container statuses:"
             docker compose ps
