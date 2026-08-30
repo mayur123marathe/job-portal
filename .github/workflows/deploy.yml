@@ -65,22 +65,38 @@ jobs:
             echo "🔄 Starting containers..."
             docker compose up -d
 
-            echo "⏳ Polling Eureka service registry for readiness (up to 10 minutes)..."
+            echo "⏳ Polling Eureka service registry for readiness (up to 60 minutes)..."
             READY=false
-            for i in {1..60}; do
-              COUNT=$(curl -s -H "Accept: application/json" http://localhost:8761/eureka/apps 2>/dev/null | grep -o '"status":"UP"' | wc -l || true)
-              echo "Attempt $i/60: $COUNT services UP in Eureka..."
+            for i in {1..360}; do
+              APPS_JSON=$(curl -s -H "Accept: application/json" http://localhost:8761/eureka/apps 2>/dev/null || true)
+              REGISTERED_NAMES=$(echo "$APPS_JSON" | grep -o '"name":"[^"]*"' | cut -d'"' -f4 | sort -u | tr '\n' ' ' || true)
+              COUNT=$(echo "$APPS_JSON" | grep -o '"status":"UP"' | wc -l || true)
+
+              echo "Attempt $i/360: [$COUNT UP] -> Registered: $REGISTERED_NAMES"
+
               if [ "$COUNT" -ge 8 ]; then
                 READY=true
-                echo "✅ Core microservices successfully registered with Eureka!"
+                echo "✅ All core microservices are UP and registered in Eureka!"
                 break
               fi
               sleep 10
             done
 
             if [ "$READY" = false ]; then
-              echo "❌ FATAL: Microservices failed to become ready in Eureka within 10 minutes!"
+              echo "❌ FATAL: Microservices failed to become ready in Eureka within timeout!"
+              echo ""
+              echo "=== 📊 FINAL CONTAINER STATUSES ==="
               docker compose ps
+              echo ""
+              echo "=== 🔍 LOGS FOR CRASHING / RESTARTING SERVICES ==="
+              for c in $(docker compose ps --services); do
+                STATUS=$(docker inspect --format '{{.State.Status}}' "job-portal-$c" 2>/dev/null || echo "unknown")
+                if [ "$STATUS" != "running" ]; then
+                  echo "--- 🔴 Logs for $c (Status: $STATUS) ---"
+                  docker compose logs --tail 25 "$c"
+                  echo ""
+                fi
+              done
               exit 1
             fi
 
