@@ -116,7 +116,7 @@ public class RouteConfig {
                                 .or(RequestPredicates.path("/api/saved-jobs/**"))
                                 .or(RequestPredicates.path("/api/job-alerts/**")),
                         HandlerFunctions.http())
-                .filter(LoadBalancerFilterFunctions.lb("job-portal-preference-service"))
+                .filter(LoadBalancerFilterFunctions.lb("job-portal-preferences"))
                 .before(this::jwtAuthFilter)
                 .build();
     }

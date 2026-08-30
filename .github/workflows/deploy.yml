@@ -25,6 +25,12 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
       - name: Build & Install Common Library
         run: |
           cd job-portal-system/common-lib
@@ -33,9 +39,7 @@ jobs:
       - name: Build & Push Docker Images via Google Jib
         run: |
           cd job-portal-system
-          mvn compile jib:build -DskipTests \
-            -Djib.to.auth.username="${{ secrets.DOCKERHUB_USERNAME }}" \
-            -Djib.to.auth.password="${{ secrets.DOCKERHUB_TOKEN }}"
+          mvn compile jib:build -DskipTests
 
   deploy-to-vps:
     name: Deploy to Production VPS
@@ -54,7 +58,11 @@ jobs:
             cd /opt/job-portal
             echo "🚀 Pulling latest images from Docker Hub..."
             docker compose pull
-            echo "🔄 Reloading containers with zero downtime..."
+            echo "🔄 Starting containers..."
             docker compose up -d
+            echo "⏳ Waiting 45s for services to finish booting and register with Eureka..."
+            sleep 45
+            echo "🔄 Refreshing Gateway cache..."
+            docker compose restart gateway
             echo "✅ Deployment complete! Checking container statuses:"
             docker compose ps
