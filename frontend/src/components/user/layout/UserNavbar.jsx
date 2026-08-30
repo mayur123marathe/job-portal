@@ -19,8 +19,44 @@ export default function UserNavbar() {
   const navigate = useNavigate()
   const location = useLocation()
   const dispatch = useDispatch()
-  const { user } = useSelector((state) => state.auth)
-  const { savedJobs } = useSelector((state) => state.savedJob)
+  const { myApplications = [] } = useSelector((state) => state.application || {})
+  const [readNotificationIds, setReadNotificationIds] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem("read_notifications") || "[]")
+    } catch {
+      return []
+    }
+  })
+
+  // Build dynamic notifications from user's live applications & saved jobs
+  const notifications = [
+    ...(myApplications || []).slice(0, 5).map((app) => ({
+      id: `app-${app.id}`,
+      title: "Application Status",
+      message: `Your application for "${app.jobTitle || 'Role'}" is currently ${app.status?.replace(/_/g, ' ') || 'Submitted'}.`,
+      time: app.appliedAt ? new Date(app.appliedAt).toLocaleDateString() : "Recent",
+      link: "/applications",
+    })),
+    ...((savedJobs || []).length > 0 ? [{
+      id: "saved-jobs-summary",
+      title: "Saved Jobs Active",
+      message: `You have ${savedJobs.length} active role${savedJobs.length > 1 ? 's' : ''} saved in your wishlist.`,
+      time: "Wishlist",
+      link: "/saved-jobs",
+    }] : [])
+  ]
+
+  const unreadCount = notifications.filter(n => !readNotificationIds.includes(n.id)).length
+
+  const handleMarkAllRead = () => {
+    const allIds = notifications.map(n => n.id)
+    setReadNotificationIds(allIds)
+    try {
+      localStorage.setItem("read_notifications", JSON.stringify(allIds))
+    } catch {
+      // ignore
+    }
+  }
 
   const [searchQuery, setSearchQuery] = useState("")
   const [searchLocation, setSearchLocation] = useState("")
@@ -102,48 +138,69 @@ export default function UserNavbar() {
               AI Match
             </Link>
 
-            {/* Notifications */}
+            {/* Dynamic Notifications */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon" className="relative">
                   <Bell className="h-5 w-5" />
-                  <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-xs">
-                    3
-                  </Badge>
+                  {unreadCount > 0 && (
+                    <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-xs bg-brand text-white">
+                      {unreadCount}
+                    </Badge>
+                  )}
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-80">
-                <DropdownMenuLabel>Notifications</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <div className="space-y-2 p-2">
-                  <div className="rounded-lg border p-3 hover:bg-slate-50 cursor-pointer">
-                    <p className="text-sm font-medium">Application Update</p>
-                    <p className="text-xs text-slate-600 mt-1">
-                      Your application for Senior React Developer has been shortlisted
-                    </p>
-                    <p className="text-xs text-slate-400 mt-1">2 hours ago</p>
-                  </div>
-                  <div className="rounded-lg border p-3 hover:bg-slate-50 cursor-pointer">
-                    <p className="text-sm font-medium">New Job Match</p>
-                    <p className="text-xs text-slate-600 mt-1">
-                      5 new jobs match your profile
-                    </p>
-                    <p className="text-xs text-slate-400 mt-1">5 hours ago</p>
-                  </div>
-                  <div className="rounded-lg border p-3 hover:bg-slate-50 cursor-pointer">
-                    <p className="text-sm font-medium">Profile View</p>
-                    <p className="text-xs text-slate-600 mt-1">
-                      Your profile was viewed by TechCorp Inc.
-                    </p>
-                    <p className="text-xs text-slate-400 mt-1">1 day ago</p>
-                  </div>
+              <DropdownMenuContent align="end" className="w-80 shadow-lg">
+                <div className="flex items-center justify-between px-3 py-2 border-b">
+                  <span className="font-semibold text-sm">Notifications</span>
+                  {unreadCount > 0 && (
+                    <button
+                      onClick={handleMarkAllRead}
+                      className="text-xs text-brand hover:underline font-medium cursor-pointer"
+                    >
+                      Mark all as read
+                    </button>
+                  )}
                 </div>
-                <DropdownMenuSeparator />
-                <div className="p-2">
-                  <Button variant="ghost" className="w-full text-sm">
-                    View all notifications
-                  </Button>
+                <div className="max-h-80 overflow-y-auto space-y-1.5 p-2">
+                  {notifications.length === 0 ? (
+                    <div className="text-center py-8 px-4 text-slate-500">
+                      <Bell className="h-8 w-8 mx-auto mb-2 text-slate-300 opacity-60" />
+                      <p className="text-sm font-medium text-slate-700">No new notifications</p>
+                      <p className="text-xs text-slate-400 mt-0.5">You're all caught up!</p>
+                    </div>
+                  ) : (
+                    notifications.map((n) => (
+                      <div
+                        key={n.id}
+                        onClick={() => {
+                          if (n.link) navigate(n.link)
+                        }}
+                        className="rounded-lg border border-slate-100 p-3 hover:bg-slate-50 transition-colors cursor-pointer"
+                      >
+                        <div className="flex items-center justify-between">
+                          <p className="text-sm font-semibold text-slate-800">{n.title}</p>
+                          <span className="text-[10px] text-slate-400">{n.time}</span>
+                        </div>
+                        <p className="text-xs text-slate-600 mt-1 leading-relaxed">{n.message}</p>
+                      </div>
+                    ))
+                  )}
                 </div>
+                {notifications.length > 0 && (
+                  <>
+                    <DropdownMenuSeparator />
+                    <div className="p-1.5">
+                      <Button
+                        variant="ghost"
+                        className="w-full text-xs font-medium text-slate-600 hover:text-slate-900"
+                        onClick={() => navigate("/applications")}
+                      >
+                        View all applications
+                      </Button>
+                    </div>
+                  </>
+                )}
               </DropdownMenuContent>
             </DropdownMenu>
 

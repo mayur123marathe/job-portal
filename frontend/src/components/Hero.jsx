@@ -1,4 +1,4 @@
-﻿import { Link } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { Button } from "./ui/button"
 import { Sparkles } from "lucide-react"
 
@@ -52,17 +52,19 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Right: Placeholder for illustration/mockup */}
+        {/* Right: AI Dashboard Mockup Illustration */}
         <div className="hidden md:flex items-center justify-center">
-          <div className="relative w-full max-w-lg">
-            {/* Placeholder for feature illustration */}
-            <div className="aspect-square rounded-2xl bg-linear-to-br from-brand/10 to-slate-100 border border-slate-200 flex items-center justify-center">
-              <div className="text-center p-8">
-                <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-white border-2 border-slate-200 flex items-center justify-center">
-                  <Sparkles className="w-12 h-12 text-brand" />
-                </div>
-                <p className="text-slate-500 font-medium">Feature Illustration</p>
-              </div>
+          <div className="relative w-full max-w-lg group">
+            {/* Ambient Glow */}
+            <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-blue-600 to-indigo-600 opacity-20 blur-xl group-hover:opacity-30 transition duration-500"></div>
+            
+            {/* Image Container */}
+            <div className="relative rounded-2xl overflow-hidden border border-slate-200/80 bg-white shadow-2xl shadow-slate-200/50">
+              <img
+                src="/hero-illustration.jpg"
+                alt="AI-Powered Job Portal Dashboard Mockup"
+                className="w-full h-auto object-cover transform transition duration-500 group-hover:scale-[1.02]"
+              />
             </div>
           </div>
         </div>
