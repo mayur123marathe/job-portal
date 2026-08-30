@@ -19,6 +19,8 @@ export default function UserNavbar() {
   const navigate = useNavigate()
   const location = useLocation()
   const dispatch = useDispatch()
+  const { user } = useSelector((state) => state.auth || {})
+  const { savedJobs = [] } = useSelector((state) => state.savedJob || {})
   const { myApplications = [] } = useSelector((state) => state.application || {})
   const [readNotificationIds, setReadNotificationIds] = useState(() => {
     try {
